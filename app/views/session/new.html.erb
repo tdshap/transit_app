@@ -1,0 +1,33 @@
+<%= render template: "shared/nav_bar" %>
+
+<div class="container">
+	<h2>Login to Trans.it</h2>
+	<% if @error %>
+		<p style='color: red;'>Incorrect email/password</p>
+		<p>Please try again</p>
+	<% end %>
+	<div class="form">
+		<form method="POST" action="/sessions"><br>
+			<div class="row">
+				<div class="col-xs-2 col-sm-3 col-md-3"></div>
+				<label class="col-xs-3 col-sm-2 col-md-2">Username:</label>
+				<input class="col-xs-4 col-sm-3 col-md-3 name" type="text" name="user_name" >
+			</div>
+			<div class="row">
+				<div class="col-xs-2 col-sm-3 col-md-3"></div>
+				<label class="col-xs-3 col-sm-2 col-md-2">Email:</label>
+				<input class="col-xs-4 col-sm-3 col-md-3 email"type="text" name="email">
+			</div>
+			<div class="row">
+				<div class="col-xs-2 col-sm-3 col-md-3"></div>
+				<label class="col-xs-3 col-sm-2 col-md-2">Password:</label>
+				<input class="col-xs-4 col-sm-3 col-md-3 password" type="password" name="password">
+			</div>
+			<input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+			<div class="row">
+				<div class="col-xs-2 col-sm-3 col-md-3"></div>
+				<button class="col-xs-7 col-sm-5 col-md-5 login btn btn-primary">Login</button>
+			</div>
+		</form>
+	</div><!-- end form div -->
+</div><!-- end container -->

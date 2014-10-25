@@ -1,0 +1,12 @@
+div.container {
+	margin: 0 auto;
+}
+label.user_name {
+	text-align: right
+}
+label.email {
+	text-align: right
+}
+label.password {
+	text-align: right
+}

@@ -40,3 +40,4 @@ gem 'spring',        group: :development
 gem "rails-pry"
 gem "pry"
 gem "httparty"
+gem "bcrypt"
