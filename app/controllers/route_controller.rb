@@ -24,6 +24,12 @@ class RouteController < ApplicationController
 		end_lng = results["results"][0]["geometry"]["location"]["lng"]
 
 
-		
+		# weather API call based on lat /lgn
+
+		weather = HTTParty.get("http://api.wunderground.com/api/d8beaac28d7f691e/conditions/q/#{end_lat},#{end_lgn}.json")
+
+		conditions = weather["current_observation"]["weather"]  
+		temp_f = weather["current_observation"]["temp_f"]  
+		icon = weather["current_observation"]["icon_url"] 
 	end 
 end 
