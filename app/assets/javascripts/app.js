@@ -22,6 +22,7 @@ var StartEndPoints = Backbone.View.extend({
 	getStartEndPoints: function(){
 		startingPoint = $("input.start").val()
 		endingPoint = $("input.end").val()
+debugger
 		$.ajax({
 			type: "POST",
 			url: "http://127.0.0.1:3000/route", 
