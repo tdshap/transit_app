@@ -14,3 +14,37 @@
 	<input type="text" class="end" name="ending_point">
 	<button class="StartEnd">Trans.it!</button>
 </script>
+
+<script type="text/template" id="location-names">
+	<%%= start_location %> ,  <%%= end_location %>
+</script> 
+
+<script type="text/template" id="weather-view">
+	<img src='<%% print(icon) %>'> <%%= conditions %>, <%%= temp %>°F, 
+</script>
+
+<script type="text/template" id="walking-view">
+	<a href="#walking"><span></span></a>
+	<%%= distance %>, <%%= time %>, <%%= calories %>
+</script>
+
+<script  type="text/template" id="transit-view">
+	<a href="#transit"><span></span></a>
+	<%% if (transit_icon) {%>
+		<img src='<%% print(transit_icon) %>'>
+	<%% } %>
+	<%% if (route_icon) {%>
+		<img src='<%% print(route_icon) %>'>
+	<%% } %>
+ <%%= duration %>, <%%= distance %>
+</script>
+
+<script type="text/template" id="biking-view">
+	<a href="#biking"><span></span></a>
+	<%%= distance %>, <%%= time %>, <%%= calories %>
+</script>
+
+<script type="text/template" id="taxi-view">
+		<a href="#taxi"><span></span></a>
+	<%= image_tag "taxi_symbol.png" %><%%= price %>
+</script>
