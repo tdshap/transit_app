@@ -163,6 +163,18 @@ var TaxiView = Backbone.View.extend({
 		$("div.container").append(taxiView)
 	}
 })
+
+// js google maps script
+// function loadScript() {
+//   var script = document.createElement('script');
+//   script.type = 'text/javascript';
+//   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+//       'callback=initialize';
+//   document.body.appendChild(script);
+// };
+
+// window.onload = loadScript;
+
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
@@ -175,7 +187,7 @@ var GoogleMapsView = Backbone.View.extend({
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
 		startLat = params.latLng.startLat;
-		startLng = params.latLng/startLng;
+		startLng = params.latLng.startLng;
 		endLat = params.latLng.endLat;
 		endLng = params.latLng.endLng;
 		transitType = params.transitType
@@ -188,8 +200,6 @@ var GoogleMapsView = Backbone.View.extend({
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
-  	// make into if statement using
-  			// transitType 
   	if (transitType == "WALKING"){
   		this.calcRouteWalking()
   	} else if (transitType == "BICYCLING"){
@@ -204,12 +214,12 @@ var GoogleMapsView = Backbone.View.extend({
 		$("div.container").append(googleMaps)
 	},
 	calcRouteWalking: function() {
-  request = {
-    origin:"" + startLat +","+ startLng,
-    destination:"" + endLat+","+endLng,
-    travelMode: google.maps.TravelMode.WALKING
-  };
-  directionsService.route(request, function(result, status) {
+	  request = {
+	    origin:"" + startLat +","+ startLng,
+	    destination:"" + endLat+","+endLng,
+	    travelMode: google.maps.TravelMode.WALKING
+	  };
+	  directionsService.route(request, function(result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(result);
     	}
@@ -273,16 +283,8 @@ router.on("route:home", function(){
 var startEndPoints = new StartEndPoints
 })
 
-function loadScript() {
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-      'callback=initialize';
-  document.body.appendChild(script);
-}
-
-
 router.on("route:walking", function(queryParams){
+	
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
 	walkingMap.render()
