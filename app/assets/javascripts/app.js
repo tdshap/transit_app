@@ -1,7 +1,5 @@
 var UsersCollection = Backbone.Collection.extend({
-
 	url: "/users"
-
 })
 
 
@@ -29,20 +27,14 @@ var StartEndPoints = Backbone.View.extend({
 			data: {
 				startingPoint: startingPoint,
 				endingPoint: endingPoint
-			},
+			}
 		}).done(function(results){
-			var location = new LocationView({ location_results: results })
-			// location.render()
-			var weather = new WeatherView({ weather_results: results })
-			weather.render()
-			var walking = new WalkingView({ walking_results: results })
-			walking.render()
-			var transit = new TransitView({ transit_results: results })
-			transit.render()
-			var biking = new BikingView({ biking_results: results })
-			biking.render()
-			var taxi = new TaxiView({ taxi_results: results })
-			taxi.render()
+			var location = new LocationView({ location_results: results.location })
+			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
+			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
+			var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
+			var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+			var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
 		})
 	}
 })
@@ -54,9 +46,9 @@ var LocationView = Backbone.View.extend({
 	},
 	template: _.template( $("#location-names").html() ), 
 		initialize: function(results){
-		start_location = results.location_results.location.start_location,
-		end_location = results.location_results.location.end_location,
-		this.render()
+			startLocation = results.location_results.start_location;
+			endLocation = results.location_results.end_location;
+			this.render()
 	},
 	render: function(){
 		var locationView = this.$el.html( this.template() )
@@ -73,9 +65,10 @@ var WeatherView = Backbone.View.extend({
 	},
 	template: _.template($("#weather-view").html() ),
 	initialize: function(results){
-		conditions = results.weather_results.weather.conditions,
-		temp = results.weather_results.weather.temp,
-		icon = results.weather_results.weather.icon
+		conditions = results.weather_results.conditions;
+		temp = results.weather_results.temp;
+		icon = results.weather_results.icon;
+		this.render()
 	},
 	render: function(){
 		var weatherView = this.$el.html( this.template() )
@@ -89,10 +82,15 @@ var WalkingView = Backbone.View.extend({
 		class: "walking col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template($("#walking-view").html() ),
-	initialize: function(results){
-		distance = results.walking_results.walking.distance,
-		time = results.walking_results.walking.time, 
-		calories = results.walking_results.walking.calories
+	initialize: function(results, location_results){
+		distance = results.walking_results.distance;
+		time = results.walking_results.time;
+		calories = results.walking_results.calories;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
 	},
 	render: function(){
 		var walkingView = this.$el.html( this.template() )
@@ -106,11 +104,16 @@ var TransitView = Backbone.View.extend({
 		class: "transit col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template($("#transit-view").html() ),
-	initialize: function(results){
-		transit_icon = results.transit_results.transit.transit_icon,
-		route_icon = results.transit_results.transit.route_icon,
-		duration = results.transit_results.transit.duration,
-		distance = results.transit_results.transit.distance
+	initialize: function(results, location_results){
+		transit_icon = results.transit_results.transit_icon;
+		route_icon = results.transit_results.route_icon;
+		duration = results.transit_results.duration;
+		distance = results.transit_results.distance;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
 	},
 	render: function(){
 		var transitView = this.$el.html( this.template() )
@@ -125,10 +128,15 @@ var BikingView = Backbone.View.extend({
 		class: "biking col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template($("#biking-view").html() ),
-	initialize: function(results){
-		distance = results.biking_results.biking.distance,
-		time = results.biking_results.biking.time,
-		calories = results.biking_results.biking.calories
+	initialize: function(results, location_results){
+		distance = results.biking_results.distance;
+		time = results.biking_results.time;
+		calories = results.biking_results.calories;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
 	},
 	render: function(){
 		var bikingView = this.$el.html( this.template() )
@@ -142,14 +150,112 @@ var TaxiView = Backbone.View.extend({
 		class: "taxi col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template($("#taxi-view").html() ),
-	initialize: function(results){
-		price = results.taxi_results.taxi.price
+	initialize: function(results, location_results){
+		price = results.taxi_results.price;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
 	},
 	render: function(){
 		var taxiView = this.$el.html( this.template() )
 		$("div.container").append(taxiView)
 	}
 })
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+
+var GoogleMapsView = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		id: "map-canvas"
+	},
+	template: _.template($("#google-maps-view").html() ),
+	initialize: function(params){
+		startLat = params.latLng.startLat;
+		startLng = params.latLng/startLng;
+		endLat = params.latLng.endLat;
+		endLng = params.latLng.endLng;
+		transitType = params.transitType
+		directionsDisplay = new google.maps.DirectionsRenderer();
+		startLocation = new google.maps.LatLng(startLat, startLng);
+
+  	mapOptions = {
+    	zoom:5,
+    	center: startLocation
+  	}
+  	map = new google.maps.Map(this.$el[0], mapOptions);
+  	directionsDisplay.setMap(map);
+  	// make into if statement using
+  			// transitType 
+  	if (transitType == "WALKING"){
+  		this.calcRouteWalking()
+  	} else if (transitType == "BICYCLING"){
+  		this.calcRouteBiking()
+  	} else if (transitType == "TRANSIT"){
+  		this.calcRouteTransit()
+  	}
+	},
+	render: function(){
+		var googleMaps = this.$el.html( this.template() )
+		$("div.container").empty()
+		$("div.container").append(googleMaps)
+	},
+	calcRouteWalking: function() {
+  request = {
+    origin:"" + startLat +","+ startLng,
+    destination:"" + endLat+","+endLng,
+    travelMode: google.maps.TravelMode.WALKING
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    	}
+  	});
+	},
+	calcRouteBiking: function() {
+  request = {
+    origin:"" + startLat +","+ startLng,
+    destination:"" + endLat+","+endLng,
+    travelMode: google.maps.TravelMode.BICYCLING
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    	}
+  	});
+	},
+	calcRouteTransit: function() {
+  request = {
+    origin:"" + startLat +","+ startLng,
+    destination:"" + endLat+","+endLng,
+    travelMode: google.maps.TravelMode.TRANSIT
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    	}
+  	});
+	}
+
+})
+
+// parse params function
+function parseParams(queryParams){
+	attributes = []
+	var split_amp = queryParams.split("&")
+	for (var i = 0; i < split_amp.length; i++){
+		mini_array = split_amp[i].split("=")
+		attributes.push(mini_array)
+	}
+	var params = {}
+	for (var j = 0; j < attributes.length; j++){
+		params[attributes[j][0]] = attributes[j][1];
+	}
+	return params 
+}
 
 // Router
 var Router = Backbone.Router.extend({
@@ -167,19 +273,34 @@ router.on("route:home", function(){
 var startEndPoints = new StartEndPoints
 })
 
-router.on("route:walking", function(){
-	console.log("walking router")
-})
-
-router.on("route:transit", function(){
-	console.log("walking router")
-})
-router.on("route:biking", function(){
-	console.log("walking router")
-})
-router.on("route:taxi", function(){
-	console.log("walking router")
-})
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
+      'callback=initialize';
+  document.body.appendChild(script);
+}
 
 
-Backbone.history.start();
+router.on("route:walking", function(queryParams){
+	params = parseParams(queryParams)
+	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
+	walkingMap.render()
+})
+router.on("route:transit", function(queryParams){
+	params = parseParams(queryParams)
+	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"TRANSIT" })
+	walkingMap.render()
+})
+router.on("route:biking", function(queryParams){
+	params = parseParams(queryParams)
+	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"BICYCLING" })
+	walkingMap.render()
+})
+router.on("route:taxi", function(queryParams){
+	params = parseParams(queryParams)
+	console.log("taxi router")
+})
+
+
+Backbone.history.start()

@@ -1,7 +1,7 @@
 class RouteController < ApplicationController
 
 	def index
-
+ 
 		# Starting Point lat / lngs 
 		starting_point = params[:startingPoint]
 		starting_encoded = starting_point.gsub(" ", "+")
@@ -42,6 +42,9 @@ class RouteController < ApplicationController
 		walking_distance = walking["rows"][0]["elements"][0]["distance"]["text"]
 		walking_time = walking["rows"][0]["elements"][0]["duration"]["text"]
 
+		calculation = (walking_distance.split(" mi")[0]).to_f
+		walking_calories  = (96 * calculation).to_i.to_s + " cals"
+
 		# Biking distance
 		biking = HTTParty.get("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{start_lat},#{start_lng}&destinations=#{end_lat},#{end_lng}&mode=bicycling&departure_time=#{Time.now.to_i}&units=imperial")
 		if walking["status"] != "OK"
@@ -50,6 +53,8 @@ class RouteController < ApplicationController
 		biking_distance = biking["rows"][0]["elements"][0]["distance"]["text"]
 		biking_time = biking["rows"][0]["elements"][0]["duration"]["text"]
 
+		calculation = (biking_distance.split(" mi")[0]).to_f 
+		biking_calories = (46 * calculation).to_i.to_s + " cals"
 
 		# Transit directions
 		transit = HTTParty.get("https://maps.googleapis.com/maps/api/directions/json?origin=#{start_lat},#{start_lng}&destination=#{end_lat},#{end_lng}&mode=transit&departure_time=#{Time.now.to_i}&units=imperial&key=AIzaSyAccMdPuDvaAGvXzwJemlq5ZNJjNxEvEec")
@@ -60,15 +65,16 @@ class RouteController < ApplicationController
 			else 
 				transit_icon = ""
 		end 
-		if transit["routes"][0]["legs"][0]["steps"][1]["transit_details"]["line"]["icon"] 
+		if transit["routes"][0]["legs"][0]["steps"][1]["transit_details"] && transit["routes"][0]["legs"][0]["steps"][1]["transit_details"]["line"]["icon"] 
 			transit_route_icon = transit["routes"][0]["legs"][0]["steps"][1]["transit_details"]["line"]["icon"] 
 		else 
 			transit_route_icon = ""
 		end 
-		# uber taxi time and $ call
+
+		# uber taxi price
 		uber = HTTParty.get("https://api.uber.com/v1/estimates/price?server_token=NE7mzs5jHPxZWhdfsTRVmHM0y5hlr2PA_SqTVTp_&start_latitude=#{start_lat}&start_longitude=#{start_lng}&end_latitude=#{end_lat}&end_longitude=#{end_lng}")
 		if uber["code"] != nil
-			render :text => "An error has occured"
+			uberX_estimate = uber["code"]
 		end 
 		
 		uberX_estimate = uber["prices"][0]["estimate"]  
@@ -96,12 +102,12 @@ results = {
 	:biking => {
 		:distance => biking_distance,
 		:time => biking_time,
-		:calories => "figure this out!"
+		:calories => biking_calories
 	},
 	:walking => {
 		:distance => walking_distance,
 		:time => walking_time,
-		:calories => "figure this out too!"
+		:calories => walking_calories
 	},
 	:taxi => {
 		:price => uberX_estimate

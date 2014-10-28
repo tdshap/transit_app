@@ -4,6 +4,8 @@
 
 
 </div>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?api_key=AIzaSyAccMdPuDvaAGvXzwJemlq5ZNJjNxEvEec">
+	</script>
 
 
 
@@ -16,7 +18,7 @@
 </script>
 
 <script type="text/template" id="location-names">
-	<%%= start_location %> ,  <%%= end_location %>
+	<%%= startLocation %> ,  <%%= endLocation %>
 </script> 
 
 <script type="text/template" id="weather-view">
@@ -24,12 +26,12 @@
 </script>
 
 <script type="text/template" id="walking-view">
-	<a href="#walking"><span></span></a>
+	<a href="#walking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
 	<%%= distance %>, <%%= time %>, <%%= calories %>
 </script>
 
 <script  type="text/template" id="transit-view">
-	<a href="#transit"><span></span></a>
+	<a href="#transit?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
 	<%% if (transit_icon) {%>
 		<img src='<%% print(transit_icon) %>'>
 	<%% } %>
@@ -40,11 +42,20 @@
 </script>
 
 <script type="text/template" id="biking-view">
-	<a href="#biking"><span></span></a>
+	<a href="#biking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
 	<%%= distance %>, <%%= time %>, <%%= calories %>
 </script>
 
 <script type="text/template" id="taxi-view">
-		<a href="#taxi"><span></span></a>
+		<a href="#taxi?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
 	<%= image_tag "taxi_symbol.png" %><%%= price %>
+</script>
+
+
+<script type="text/template" id="google-maps-view">
+	<div id="map-container">
+	  // <div id="map-canvas"></div> being made by google maps render view 
+
+
+	</div>
 </script>
