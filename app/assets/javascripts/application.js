@@ -15,7 +15,7 @@
 //= require turbolinks
 // require_tree .
 
-// require ./google_maps
+
 //= require ./bootstrap
 //= require ./underscore/underscore
 //= require ./backbone/backbone
