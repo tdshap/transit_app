@@ -164,20 +164,10 @@ var TaxiView = Backbone.View.extend({
 	}
 })
 
-// js google maps script
-// function loadScript() {
-//   var script = document.createElement('script');
-//   script.type = 'text/javascript';
-//   script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' +
-//       'callback=initialize';
-//   document.body.appendChild(script);
-// };
-
-// window.onload = loadScript;
-
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
+
 
 var GoogleMapsView = Backbone.View.extend({
 	tagName: "div",
@@ -202,9 +192,11 @@ var GoogleMapsView = Backbone.View.extend({
   	directionsDisplay.setMap(map);
   	if (transitType == "WALKING"){
   		this.calcRouteWalking()
-  	} else if (transitType == "BICYCLING"){
-  		this.calcRouteBiking()
-  	} else if (transitType == "TRANSIT"){
+  	}
+  	 // else if (transitType == "BICYCLING"){
+  		// this.calcRouteBiking()
+  	// }
+  	else if (transitType == "TRANSIT"){
   		this.calcRouteTransit()
   	}
 	},
@@ -225,18 +217,18 @@ var GoogleMapsView = Backbone.View.extend({
     	}
   	});
 	},
-	calcRouteBiking: function() {
-  request = {
-    origin:"" + startLat +","+ startLng,
-    destination:"" + endLat+","+endLng,
-    travelMode: google.maps.TravelMode.BICYCLING
-  };
-  directionsService.route(request, function(result, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(result);
-    	}
-  	});
-	},
+	// calcRouteBiking: function() {
+ //  request = {
+ //    origin:"" + startLat +","+ startLng,
+ //    destination:"" + endLat+","+endLng,
+ //    travelMode: google.maps.TravelMode.BICYCLING
+ //  };
+ //  directionsService.route(request, function(result, status) {
+ //    if (status == google.maps.DirectionsStatus.OK) {
+ //      directionsDisplay.setDirections(result);
+ //    	}
+ //  	});
+	// },
 	calcRouteTransit: function() {
   request = {
     origin:"" + startLat +","+ startLng,
@@ -249,7 +241,85 @@ var GoogleMapsView = Backbone.View.extend({
     	}
   	});
 	}
+})
 
+var GoogleMapsView2 = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		id: "map-canvas"
+	},
+	template: _.template($("#google-maps-view").html() ),
+	initialize: function(params){
+		stations = Object.keys(params.stations)
+		mapPoints = []
+
+		for (var i=0; i< stations.length; i++){
+			subArray = []
+			subArray.push(stations[i])
+			subArray.push(params.stations[stations[i]][0].lat)
+			subArray.push(params.stations[stations[i]][0].lng)
+			subArray.push(i+1)
+			mapPoints.push(subArray)
+		}
+
+		startLat = params.latLng.startLat;
+		startLng = params.latLng.startLng;
+		endLat = params.latLng.endLat;
+		endLng = params.latLng.endLng;
+		transitType = params.transitType
+		directionsDisplay = new google.maps.DirectionsRenderer();
+		startLocation = new google.maps.LatLng(startLat, startLng);
+
+  	mapOptions = {
+    	zoom:3,
+    	center: startLocation
+  	}
+  	map = new google.maps.Map(this.$el[0], mapOptions);
+  	directionsDisplay.setMap(map);
+  	this.calcRouteBiking()
+  	this.setMarkers(map, mapPoints)
+	},
+	render: function(){
+		var googleMaps = this.$el.html( this.template() )
+		$("div.container").empty()
+		$("div.container").append(googleMaps)
+	},
+	calcRouteBiking: function() {
+  request = {
+    origin:"" + startLat +","+ startLng,
+    destination:"" + endLat+","+endLng,
+    travelMode: google.maps.TravelMode.BICYCLING
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(result);
+    	}
+  	});
+	},
+	setMarkers: function(map, locations){
+		var image = {
+	    url: "http://placekitten.com/20/30",
+	    size: new google.maps.Size(20, 30),
+	    origin: new google.maps.Point(0,0),
+	    anchor: new google.maps.Point(0, 15)
+  	};
+  	var shape = {
+      coords: [1, 1, 1, 30, 20, 30, 20 , 1],
+      type: 'poly'
+  	};
+  	for (var i = 0; i < locations.length; i++) {
+	    var station = locations[i];
+	    var myLatLng = new google.maps.LatLng(station[1], station[2]);
+	    var marker = new google.maps.Marker({
+	        position: myLatLng,
+	        map: map,
+	        icon: image,
+	        shape: shape,
+	        title: station[0],
+	        zIndex: station[3]
+	    });
+	  }
+	}
 })
 
 // parse params function
@@ -284,7 +354,6 @@ var startEndPoints = new StartEndPoints
 })
 
 router.on("route:walking", function(queryParams){
-	
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
 	walkingMap.render()
@@ -296,8 +365,18 @@ router.on("route:transit", function(queryParams){
 })
 router.on("route:biking", function(queryParams){
 	params = parseParams(queryParams)
-	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"BICYCLING" })
-	walkingMap.render()
+	$.ajax({
+		type: "POST",
+		url: "http://127.0.0.1:3000/bikeStations", 
+		data: {
+			params: params
+		}
+	}).done(function(results){
+		console.log(results)
+		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
+		bikingMap.render()
+	})
+
 })
 router.on("route:taxi", function(queryParams){
 	params = parseParams(queryParams)

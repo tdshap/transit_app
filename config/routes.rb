@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get "/signup" => "users#new"
   get "/signout" => "session#destroy"
   post "/route" => "route#index"
+  post "bikeStations" => "route#bikeStations"
 #          Prefix Verb   URI Pattern                                 Controller#Action
 #             root GET    /                                           root#index
 #    user_searches GET    /users/:user_id/searches(.:format)          searches#index
