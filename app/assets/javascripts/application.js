@@ -14,10 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 // require_tree .
+
+//= require ./google_maps
 //= require ./bootstrap
 //= require ./underscore/underscore
 //= require ./backbone/backbone
 // require application
-//= require ./google_maps
 //= require ./app
 
