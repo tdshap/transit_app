@@ -9,6 +9,10 @@
 <body>
 
 <%= yield %>
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=#"+ GOOGLE_MAPS_API_KEY></script>
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    
+    
 </body>
 </html>
