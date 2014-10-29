@@ -16,12 +16,6 @@ ActiveRecord::Schema.define(version: 20141028150644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "bikes", force: true do |t|
-    t.string "name"
-    t.float  "lat"
-    t.float  "lng"
-  end
-
   create_table "searches", force: true do |t|
     t.string  "name"
     t.float   "starting_point"
