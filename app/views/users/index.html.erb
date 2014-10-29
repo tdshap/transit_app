@@ -22,6 +22,7 @@
 
 <script type="text/template" id="walking-view">
 	<a href="#walking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
+	<%= image_tag "walk_symbol2.png" %>
 	<%%= distance %>, <%%= time %>, <%%= calories %>
 </script>
 
@@ -38,12 +39,13 @@
 
 <script type="text/template" id="biking-view">
 	<a href="#biking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
+	<%= image_tag "bike_symbol.png" %>
 	<%%= distance %>, <%%= time %>, <%%= calories %>
 </script>
 
 <script type="text/template" id="taxi-view">
 		<a href="#taxi?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
-	<%= image_tag "taxi_symbol.png" %><%%= price %>
+	<%= image_tag "taxi_symbol2.png" %><%%= price %>
 </script>
 
 

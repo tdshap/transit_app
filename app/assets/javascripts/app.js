@@ -23,7 +23,7 @@ var StartEndPoints = Backbone.View.extend({
 		endingPoint = $("input.end").val()
 		$.ajax({
 			type: "POST",
-			url: "http://127.0.0.1:3000/route", 
+			url: "/route", 
 			data: {
 				startingPoint: startingPoint,
 				endingPoint: endingPoint
@@ -298,13 +298,13 @@ var GoogleMapsView2 = Backbone.View.extend({
 	},
 	setMarkers: function(map, locations){
 		var image = {
-	    url: "http://placekitten.com/20/30",
-	    size: new google.maps.Size(20, 30),
+	    url: location.origin + "/assets/bike_for_map_small.png",
+	    size: new google.maps.Size(30, 30),
 	    origin: new google.maps.Point(0,0),
-	    anchor: new google.maps.Point(0, 15)
+	    anchor: new google.maps.Point(15, 15)
   	};
   	var shape = {
-      coords: [1, 1, 1, 30, 20, 30, 20 , 1],
+      coords: [1, 1, 1, 30, 30, 30, 30 , 1],
       type: 'poly'
   	};
   	for (var i = 0; i < locations.length; i++) {
@@ -367,7 +367,7 @@ router.on("route:biking", function(queryParams){
 	params = parseParams(queryParams)
 	$.ajax({
 		type: "POST",
-		url: "http://127.0.0.1:3000/bikeStations", 
+		url: "/bikeStations", 
 		data: {
 			params: params
 		}

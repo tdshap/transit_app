@@ -17,7 +17,7 @@ class RouteController < ApplicationController
 		# Ending Point lat /lngs
 		ending_point = params[:endingPoint]
 		ending_encoded = ending_point.gsub(" ", "+")
-		end_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{ending_encoded}&key=AIzaSyAccMdPuDvaAGvXzwJemlq5ZNJjNxEvEec")
+		end_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{ending_encoded}&key=#{GOOGLE_API_KEY}")
 		if end_results["status"] != "OK" 
 			render :text => "ERROR! Something wrong with your end location"
 		end 
@@ -26,7 +26,7 @@ class RouteController < ApplicationController
 		end_lng = end_results["results"][0]["geometry"]["location"]["lng"]
 
 		# weather API call based on lat /lgn
-		weather = HTTParty.get("http://api.wunderground.com/api/d8beaac28d7f691e/conditions/q/#{end_lat},#{end_lng}.json")
+		weather = HTTParty.get("http://api.wunderground.com/api/#{WUNDERGROUND_API_KEY}/conditions/q/#{end_lat},#{end_lng}.json")
 		weather_conditions = weather["current_observation"]["weather"]  
 		temp_f = weather["current_observation"]["temp_f"]  
 		weather_icon = weather["current_observation"]["icon_url"] 
@@ -56,7 +56,7 @@ class RouteController < ApplicationController
 
 
 		# Transit directions
-		transit = HTTParty.get("https://maps.googleapis.com/maps/api/directions/json?origin=#{start_lat},#{start_lng}&destination=#{end_lat},#{end_lng}&mode=transit&departure_time=#{Time.now.to_i}&units=imperial&key=AIzaSyAccMdPuDvaAGvXzwJemlq5ZNJjNxEvEec")
+		transit = HTTParty.get("https://maps.googleapis.com/maps/api/directions/json?origin=#{start_lat},#{start_lng}&destination=#{end_lat},#{end_lng}&mode=transit&departure_time=#{Time.now.to_i}&units=imperial&key=#{GOOGLE_API_KEY}")
 		transit_distance = transit["routes"][0]["legs"][0]["distance"]["text"]
 		transit_duration = transit["routes"][0]["legs"][0]["duration"]["text"]
 		if transit["routes"][0]["legs"][0]["steps"][1]["transit_details"]
@@ -71,7 +71,7 @@ class RouteController < ApplicationController
 		end 
 
 		# uber taxi price
-		uber = HTTParty.get("https://api.uber.com/v1/estimates/price?server_token=NE7mzs5jHPxZWhdfsTRVmHM0y5hlr2PA_SqTVTp_&start_latitude=#{start_lat}&start_longitude=#{start_lng}&end_latitude=#{end_lat}&end_longitude=#{end_lng}")
+		uber = HTTParty.get("https://api.uber.com/v1/estimates/price?server_token=#{UBER_API_KEY}&start_latitude=#{start_lat}&start_longitude=#{start_lng}&end_latitude=#{end_lat}&end_longitude=#{end_lng}")
 		if uber["code"] != nil
 			uberX_estimate = uber["code"]
 		end 
