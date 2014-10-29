@@ -29,6 +29,8 @@ var StartEndPoints = Backbone.View.extend({
 				endingPoint: endingPoint
 			}
 		}).done(function(results){
+			console.log(results)
+			console.log("something returned")
 			var location = new LocationView({ location_results: results.location })
 			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
 			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
