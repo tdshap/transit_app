@@ -374,7 +374,9 @@ router.on("route:biking", function(queryParams){
 			params: params
 		}
 	}).done(function(results){
+		console.log("biking route")
 		console.log(results)
+debugger
 		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
 	})

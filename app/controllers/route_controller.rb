@@ -26,7 +26,7 @@ class RouteController < ApplicationController
 
 		# weather API call based on lat /lgn
 		weather = HTTParty.get("https://api.wunderground.com/api/" + WUNDERGROUND_API_KEY + "/conditions/q/#{end_lat},#{end_lng}.json")
-		binding.pry
+
 		weather_conditions = weather["current_observation"]["weather"]  
 		temp_f = weather["current_observation"]["temp_f"]  
 		weather_icon = weather["current_observation"]["icon_url"] 
@@ -75,7 +75,7 @@ class RouteController < ApplicationController
 		if uber["code"] != nil
 			uberX_estimate = uber["code"]
 		end 
-	binding.pry	
+
 		uberX_estimate = uber["prices"][0]["estimate"]  
 
 		results = {
