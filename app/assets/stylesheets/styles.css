@@ -88,8 +88,8 @@ span {
 	/*width: 390px;*/
 	overflow: auto;
 }
-#citibike_popover{
-	font-size: 20px
+#citibike_popover p h3 {
+	font-size: 15px
 
 }
 p.logo{

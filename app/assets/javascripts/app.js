@@ -32,8 +32,8 @@ var StartEndPoints = Backbone.View.extend({
 			var location = new LocationView({ location_results: results.location })
 			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
 			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
-			var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
 			var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+			var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
 			var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
 		})
 	}
