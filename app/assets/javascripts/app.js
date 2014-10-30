@@ -195,9 +195,6 @@ var GoogleMapsView = Backbone.View.extend({
   	if (transitType == "WALKING"){
   		this.calcRouteWalking()
   	}
-  	 // else if (transitType == "BICYCLING"){
-  		// this.calcRouteBiking()
-  	// }
   	else if (transitType == "TRANSIT"){
   		this.calcRouteTransit()
   	}
@@ -219,18 +216,6 @@ var GoogleMapsView = Backbone.View.extend({
     	}
   	});
 	},
-	// calcRouteBiking: function() {
- //  request = {
- //    origin:"" + startLat +","+ startLng,
- //    destination:"" + endLat+","+endLng,
- //    travelMode: google.maps.TravelMode.BICYCLING
- //  };
- //  directionsService.route(request, function(result, status) {
- //    if (status == google.maps.DirectionsStatus.OK) {
- //      directionsDisplay.setDirections(result);
- //    	}
- //  	});
-	// },
 	calcRouteTransit: function() {
   request = {
     origin:"" + startLat +","+ startLng,
@@ -245,6 +230,16 @@ var GoogleMapsView = Backbone.View.extend({
 	}
 })
 
+
+
+
+
+
+
+
+
+
+
 var GoogleMapsView2 = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
@@ -254,7 +249,8 @@ var GoogleMapsView2 = Backbone.View.extend({
 	initialize: function(params){
 		stations = Object.keys(params.stations)
 		mapPoints = []
-
+		infowindow = new google.maps.InfoWindow({
+ 		});
 		for (var i=0; i< stations.length; i++){
 			subArray = []
 			subArray.push(stations[i])
@@ -262,6 +258,19 @@ var GoogleMapsView2 = Backbone.View.extend({
 			subArray.push(params.stations[stations[i]][0].lng)
 			subArray.push(i+1)
 			mapPoints.push(subArray)
+		}
+
+		contentString = []
+		for (var i=0; i < stations.length; i++){
+
+			content = "<div id='citibike_popover'> <h3>Station Location: " + stations[i] + "<h3>"
+			object = params["stations"][stations[i]][0]
+			if (_.has(object, "bikes")){
+				content += "<p>Bikes available: " + params["stations"][stations[i]][0]["bikes"] + "</p></div>"
+			} else {
+			content += "<p>Docks available: " + params["stations"][stations[i]][0]["docks"] + "</p></div>"
+			}
+			contentString.push(content)
 		}
 
 		startLat = params.latLng.startLat;
@@ -280,6 +289,8 @@ var GoogleMapsView2 = Backbone.View.extend({
   	directionsDisplay.setMap(map);
   	this.calcRouteBiking()
   	this.setMarkers(map, mapPoints)
+  	
+
 	},
 	render: function(){
 		var googleMaps = this.$el.html( this.template() )
@@ -310,6 +321,8 @@ var GoogleMapsView2 = Backbone.View.extend({
       type: 'poly'
   	};
   	for (var i = 0; i < locations.length; i++) {
+	    var content = contentString[i]
+	
 	    var station = locations[i];
 	    var myLatLng = new google.maps.LatLng(station[1], station[2]);
 	    var marker = new google.maps.Marker({
@@ -318,11 +331,22 @@ var GoogleMapsView2 = Backbone.View.extend({
 	        icon: image,
 	        shape: shape,
 	        title: station[0],
-	        zIndex: station[3]
+	        zIndex: station[3],
 	    });
-	  }
+	  	this.setContent(content, marker)
+		}
+	},
+	setContent: function(content, marker){
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent( content )
+			infowindow.open(map,this);
+		})
 	}
 })
+
+
+
+
 
 // parse params function
 function parseParams(queryParams){
@@ -376,7 +400,7 @@ router.on("route:biking", function(queryParams){
 	}).done(function(results){
 		console.log("biking route")
 		console.log(results)
-debugger
+
 		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
 	})
