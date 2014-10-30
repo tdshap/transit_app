@@ -5,11 +5,14 @@ class UsersController < ApplicationController
 	end 
 
 	def create
+		binding.pry
 		user = User.create({
 			user_name: params[:user_name],
 			password: params[:password],
 			email: params[:email]
 			})
+		@signed_up = true
+
 		render "session/new"
 	end 
 

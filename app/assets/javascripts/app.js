@@ -29,8 +29,6 @@ var StartEndPoints = Backbone.View.extend({
 				endingPoint: endingPoint
 			}
 		}).done(function(results){
-			console.log(results)
-			console.log("something returned")
 			var location = new LocationView({ location_results: results.location })
 			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
 			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
@@ -100,29 +98,6 @@ var WalkingView = Backbone.View.extend({
 	}
 })
 
-var TransitView = Backbone.View.extend({
-	tagName: "div",
-	attributes: {
-		class: "transit col-xs-12 col-s-12 col-md-12 col-lg-12"
-	},
-	template: _.template($("#transit-view").html() ),
-	initialize: function(results, location_results){
-		transit_icon = results.transit_results.transit_icon;
-		route_icon = results.transit_results.route_icon;
-		duration = results.transit_results.duration;
-		distance = results.transit_results.distance;
-		startLat = results.location_results.start_lat;
-		startLng = results.location_results.start_lng;
-		endLat = results.location_results.end_lat;
-		endLng = results.location_results.end_lng;
-		this.render()
-	},
-	render: function(){
-		var transitView = this.$el.html( this.template() )
-		$("div.container").append(transitView)
-	}
-})
-
 
 var BikingView = Backbone.View.extend({
 	tagName: "div",
@@ -143,6 +118,30 @@ var BikingView = Backbone.View.extend({
 	render: function(){
 		var bikingView = this.$el.html( this.template() )
 		$("div.container").append(bikingView)
+	}
+})
+
+
+var TransitView = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		class: "transit col-xs-12 col-s-12 col-md-12 col-lg-12"
+	},
+	template: _.template($("#transit-view").html() ),
+	initialize: function(results, location_results){
+		transit_icon = results.transit_results.transit_icon;
+		route_icon = results.transit_results.route_icon;
+		duration = results.transit_results.duration;
+		distance = results.transit_results.distance;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
+	},
+	render: function(){
+		var transitView = this.$el.html( this.template() )
+		$("div.container").append(transitView)
 	}
 })
 
@@ -174,7 +173,8 @@ var map;
 var GoogleMapsView = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
-		id: "map-canvas"
+		id: "map-canvas",
+		class: "col-xs-12 col-sm-12 col-md-8 col-lg-8"
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
@@ -185,17 +185,20 @@ var GoogleMapsView = Backbone.View.extend({
 		transitType = params.transitType
 		directionsDisplay = new google.maps.DirectionsRenderer();
 		startLocation = new google.maps.LatLng(startLat, startLng);
-
+		directionsDiv = document.getElementById('directions-panel')
   	mapOptions = {
     	zoom:5,
     	center: startLocation
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
+  
   	if (transitType == "WALKING"){
+  		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteWalking()
   	}
   	else if (transitType == "TRANSIT"){
+  		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteTransit()
   	}
 	},
@@ -203,6 +206,7 @@ var GoogleMapsView = Backbone.View.extend({
 		var googleMaps = this.$el.html( this.template() )
 		$("div.container").empty()
 		$("div.container").append(googleMaps)
+		$("div.container").append(directionsDiv)
 	},
 	calcRouteWalking: function() {
 	  request = {
@@ -231,22 +235,15 @@ var GoogleMapsView = Backbone.View.extend({
 })
 
 
-
-
-
-
-
-
-
-
-
 var GoogleMapsView2 = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
-		id: "map-canvas"
+		id: "map-canvas",
+		class: "col-xs-12 col-sm-12 col-md-8 col-lg-8"
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
+		directionsDiv = document.getElementById('directions-panel')
 		stations = Object.keys(params.stations)
 		mapPoints = []
 		infowindow = new google.maps.InfoWindow({
@@ -262,7 +259,6 @@ var GoogleMapsView2 = Backbone.View.extend({
 
 		contentString = []
 		for (var i=0; i < stations.length; i++){
-
 			content = "<div id='citibike_popover'> <h3>Station Location: " + stations[i] + "<h3>"
 			object = params["stations"][stations[i]][0]
 			if (_.has(object, "bikes")){
@@ -287,6 +283,7 @@ var GoogleMapsView2 = Backbone.View.extend({
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
+  	directionsDisplay.setPanel(directionsDiv);
   	this.calcRouteBiking()
   	this.setMarkers(map, mapPoints)
   	
@@ -296,6 +293,7 @@ var GoogleMapsView2 = Backbone.View.extend({
 		var googleMaps = this.$el.html( this.template() )
 		$("div.container").empty()
 		$("div.container").append(googleMaps)
+		$("div.container").append(directionsDiv)
 	},
 	calcRouteBiking: function() {
   request = {
@@ -398,9 +396,6 @@ router.on("route:biking", function(queryParams){
 			params: params
 		}
 	}).done(function(results){
-		console.log("biking route")
-		console.log(results)
-
 		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
 	})
@@ -408,7 +403,6 @@ router.on("route:biking", function(queryParams){
 })
 router.on("route:taxi", function(queryParams){
 	params = parseParams(queryParams)
-	console.log("taxi router")
 })
 
 

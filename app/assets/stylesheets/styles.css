@@ -1,41 +1,53 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+body{
+	font-family: "Droid Sans", sans-serif;
+}
+.enter{
+	background-image: url("https://c2.staticflickr.com/8/7146/6758021845_6aa365332f_z.jpg");
+	min-height: 400px;
+}
 div.taxi {
-	background-color: blue;
+	background-color: rgb(165,125,255);
 	height: 100px;
 	font-size: 50px;
-	position:relative
+	position:relative;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px
 }
 div.biking {
-	background-color: yellow;
+	background-color: rgb(102,225,232);
 	height: 100px;
 	font-size: 50px;
 	position:relative
 
 }
 div.transit {
-	background-color: orange;
+	background-color: rgb(163,255,112);
 	height: 100px;
 	font-size: 50px;
 	position:relative
 
 }
 div.walking {
-	background-color: purple;
+	background-color: rgb(232,106,102);
 	height: 100px;
 	font-size: 50px;
-	position:relative
+	position:relative;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px
 
 }
 div.weather {
-	background-color: red;
-	height: 100px;
-	font-size: 50px;
-	position:relative
+	height: 50px;
+	font-size: 20px;
+	position:relative;
+	text-align: center;
 
 }
 div.location {
-	height: 100px;
-	font-size: 50px;
-
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
 }
 span {
   position:absolute; 
@@ -54,15 +66,48 @@ span {
    margin-top: 25px;
    border-width: 7px;
  }
- #map-canvas {
-   height: 384px;
-   width: 100%;
- }
- /* Bootstrap Css Map Fix*/
-#map-container #map-canvas img {
-  max-width: none;
+
+#map-canvas {
+	height: 100%;
+	margin: 0px;
+	padding: 0px
 }
-/* Bootstrap Css Map Fix*/
-#map-container #map-canvas label {
-  width: auto; display:inline;
+#panel {
+	position: absolute;
+	top: 5px;
+	left: 50%;
+	/*margin-left: -180px;*/
+	z-index: 5;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
 }
+#directions-panel {
+	height: 100%;
+	float: right;
+	/*width: 390px;*/
+	overflow: auto;
+}
+#citibike_popover{
+	font-size: 20px
+
+}
+p.logo{
+	margin-top: -18.5px;
+
+}
+label{
+	background-color: white;
+	opacity: 0.5;
+}
+
+
+
+
+
+
+
+
+
+
+
