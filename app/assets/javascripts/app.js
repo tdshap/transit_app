@@ -7,9 +7,6 @@ var UsersCollection = Backbone.Collection.extend({
 var StartEndPoints = Backbone.View.extend({
 	tagName: "div",
 	template: _.template($("#start-end-points").html() ),
-	events: {
-		"click button.StartEnd" : "getStartEndPoints"
-	},
 	initialize: function(){
 		this.render()
 	},
@@ -21,23 +18,27 @@ var StartEndPoints = Backbone.View.extend({
 	getStartEndPoints: function(){
 		startingPoint = $("input.start").val()
 		endingPoint = $("input.end").val()
-		$.ajax({
-			type: "POST",
-			url: "/route", 
-			data: {
-				startingPoint: startingPoint,
-				endingPoint: endingPoint
-			}
-		}).done(function(results){
-			var location = new LocationView({ location_results: results.location })
-			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
-			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
-			var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
-			var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
-			var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
-		})
+		return [startingPoint, endingPoint]
 	}
 })
+
+
+var SpinningWheel = Backbone.View.extend({
+	tagName: "div", 
+	attributes: {
+		class: "spinningWheel col-xs-12 col-s-12 col-md-12 col-lg-12"
+	},
+	template: _.template($("#spinningWheel").html() ),
+	initialize: function(){
+		this.render()
+	},
+	render: function(){
+		var spinningWheel = this.$el.html( this.template() )
+		$("div.container").empty()
+		$("div.container").append(spinningWheel)
+	}
+})
+
 
 var LocationView = Backbone.View.extend({
 	tagName: "div", 
@@ -45,10 +46,10 @@ var LocationView = Backbone.View.extend({
 		class: "location col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template( $("#location-names").html() ), 
-		initialize: function(results){
-			startLocation = results.location_results.start_location;
-			endLocation = results.location_results.end_location;
-			this.render()
+	initialize: function(results){
+		startLocation = results.location_results.start_location;
+		endLocation = results.location_results.end_location;
+		this.render()
 	},
 	render: function(){
 		var locationView = this.$el.html( this.template() )
@@ -342,6 +343,24 @@ var GoogleMapsView2 = Backbone.View.extend({
 	}
 })
 
+var AllResults = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		class: "allResults col-xs-12 col-s-12 col-md-12 col-lg-12"
+	},
+	template: _.template($("#all-results").html() ),
+	initialize: function(results){
+		startLat = startLat
+		startLng = startLng
+		endLat = endLat
+		endLng = endLng
+		this.render()
+	},
+	render: function(){
+		var allResults = this.$el.html( this.template() )
+		$("div.container").append(allResults)
+	}
+})
 
 
 
@@ -365,6 +384,8 @@ function parseParams(queryParams){
 var Router = Backbone.Router.extend({
 	routes: {
 		"": "home",
+		"search": "search",
+		"searchResults": "searchResults", 
 		"walking": "walking",
 		"transit": "transit",
 		"biking": "biking",
@@ -374,19 +395,45 @@ var Router = Backbone.Router.extend({
 var router = new Router;
 
 router.on("route:home", function(){
-var startEndPoints = new StartEndPoints
+	startEndPoints = new StartEndPoints
+})
+
+router.on("route:search", function(){
+
+	var sendStartEndPoints = startEndPoints.getStartEndPoints()
+	var gettingResults = new SpinningWheel
+	$.ajax({
+		type: "POST",
+		url: "/route", 
+		data: {
+			startingPoint: sendStartEndPoints[0],
+			endingPoint: sendStartEndPoints[1]
+		}
+	}).done(function(results){
+		console.log(results)
+		var location = new LocationView({ location_results: results.location })
+		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
+		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
+		var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+		var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
+		var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
+	})
 })
 
 router.on("route:walking", function(queryParams){
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
 	walkingMap.render()
+	var backButton = new AllResults ({ latLng:params })
 })
+
 router.on("route:transit", function(queryParams){
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"TRANSIT" })
 	walkingMap.render()
+	var backButton = new AllResults ({ latLng:params })
 })
+
 router.on("route:biking", function(queryParams){
 	params = parseParams(queryParams)
 	$.ajax({
@@ -398,12 +445,37 @@ router.on("route:biking", function(queryParams){
 	}).done(function(results){
 		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
+		var backButton = new AllResults ({ latLng:params })
 	})
 
 })
+
 router.on("route:taxi", function(queryParams){
 	params = parseParams(queryParams)
+	var backButton = new AllResults ({ latLng:params })
 })
 
+router.on("route:searchResults", function(queryParams){
+
+	params = parseParams(queryParams)
+	$.ajax({
+		type: "POST",
+		url: "/route", 
+		data: {
+			startLat: params.startLat,
+			startLng: params.startLng,
+			endLat: params.endLat,
+			endLng: params.endLng
+		}
+	}).done(function(results){
+		console.log(results)
+		var location = new LocationView({ location_results: results.location })
+		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
+		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
+		var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+		var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
+		var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
+	})
+})
 
 Backbone.history.start()

@@ -7,18 +7,24 @@
 	<div class="row">
 		<div class="col-xs-2 col-sm-2 col-md-3 col-lg-3"> </div>
 		<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Starting Point</label>
-		<input type="text" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 start" name="starting_point">
+		<input type="text" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 start" name="starting_point"/>
 	</div>
 	<div class="row">
 		<div class="col-xs-2 col-sm-2 col-md-3 col-lg-3"></div>	
 		<label class="col-xs-2 col-sm-2 col-md-2 col-lg-2">Ending Point</label>
-		<input type="text" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 end" name="ending_point">
+		<input type="text" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 end" name="ending_point"/>
 	</div>
 	<div class="row">
 		<div class="col-xs-2 col-sm-2 col-md-3 col-lg-3"></div>
-		<button class="col-xs-5 col-sm-5 col-md-5 col-lg-5 StartEnd btn btn-primary">Trans.it!</button>
+		<a href="#search" class="col-xs-5 col-sm-5 col-md-5 col-lg-5 btn btn-primary getResults">Trans.it!</a>
 	</div>
 </script>
+
+<script type="text/template" id="spinningWheel">
+<%= image_tag "loading.gif" %>
+</script>
+
+
 
 <script type="text/template" id="location-names">
 		<p class="search-results-location-name"><strong>Start: </strong><%%= startLocation %> <br>
@@ -66,4 +72,10 @@
 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" id="directions-panel"></div>
 	</div>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="+ GOOGLE_MAPS_API_KEY></script>
+
+
+<script type="text.template" id="all-results">
+<a href="#searchResults?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>" class="btn btn-primary">Back to All Results</a>
+</script>
+
 

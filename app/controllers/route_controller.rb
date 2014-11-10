@@ -1,25 +1,47 @@
 class RouteController < ApplicationController
 
 	def index
-		# Starting Point lat / lngs 
-		starting_point = params[:startingPoint]
-		starting_encoded = starting_point.gsub(" ", "+")
-		start_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{starting_encoded}&key=" + GOOGLE_API_KEY )
-		if start_results["status"] != "OK" 
-			render :text => "ERROR! Something wrong with your start location"
+		if params[:startingPoint]
+			# Starting Point lat / lngs 
+			starting_point = params[:startingPoint]
+			starting_encoded = starting_point.gsub(" ", "+")
+			
+
+			start_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{starting_encoded}&key=" + GOOGLE_API_KEY )
+			if start_results["status"] != "OK" 
+				# render :html => "<h1>ERROR! Something wrong with your start location</h1>"
+			end 
+			start_results
+		else 
+			start_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=#{params['startLat']},#{params['startLng']}&key=" + GOOGLE_API_KEY )
+			if start_results["status"] != "OK" 
+				# render :html => "<h1>ERROR! Something wrong with your start location</h1>"
+			end 
+			start_results
 		end 
+
+		if params[:endingPoint]
+			# Ending Point lat /lngs
+			ending_point = params[:endingPoint]
+			ending_encoded = ending_point.gsub(" ", "+")
+
+			end_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{ending_encoded}&key=" + GOOGLE_API_KEY)
+			if end_results["status"] != "OK" 
+				# render :html => "<h1>ERROR! Something wrong with your end location</h1>"
+			end 
+			end_results
+		else
+			end_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=#{params['endLat']},#{params['endLng']}&key=" + GOOGLE_API_KEY )
+			if end_results["status"] != "OK" 
+				# render :html => "<h1>ERROR! Something wrong with your end location</h1>"
+			end 
+			end_results
+		end 
+
 		start_name = start_results["results"][0]["formatted_address"]
 		start_lat = start_results["results"][0]["geometry"]["location"]["lat"]
 		start_lng = start_results["results"][0]["geometry"]["location"]["lng"]     
 
-
-		# Ending Point lat /lngs
-		ending_point = params[:endingPoint]
-		ending_encoded = ending_point.gsub(" ", "+")
-		end_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?address=#{ending_encoded}&key=" + GOOGLE_API_KEY)
-		if end_results["status"] != "OK" 
-			render :text => "ERROR! Something wrong with your end location"
-		end 
 		end_name = end_results["results"][0]["formatted_address"]
 		end_lat = end_results["results"][0]["geometry"]["location"]["lat"] 
 		end_lng = end_results["results"][0]["geometry"]["location"]["lng"]
