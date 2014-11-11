@@ -14461,27 +14461,6 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
   return Backbone;
 
 }));
-window.google = window.google || {};
-google.maps = google.maps || {};
-(function() {
-  
-  function getScript(src) {
-    document.write('<' + 'script src="' + src + '"' +
-                   ' type="text/javascript"><' + '/script>');
-  }
-  
-  var modules = google.maps.modules = {};
-  google.maps.__gjsload__ = function(name, text) {
-    modules[name] = text;
-  };
-  
-  google.maps.Load = function(apiLoad) {
-    delete google.maps.Load;
-    apiLoad([0.009999999776482582,[[["https://mts0.googleapis.com/vt?lyrs=m@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.googleapis.com/vt?lyrs=m@279000000\u0026src=api\u0026hl=en-US\u0026"],null,null,null,null,"m@279000000",["https://mts0.google.com/vt?lyrs=m@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.google.com/vt?lyrs=m@279000000\u0026src=api\u0026hl=en-US\u0026"]],[["https://khms0.googleapis.com/kh?v=159\u0026hl=en-US\u0026","https://khms1.googleapis.com/kh?v=159\u0026hl=en-US\u0026"],null,null,null,1,"159",["https://khms0.google.com/kh?v=159\u0026hl=en-US\u0026","https://khms1.google.com/kh?v=159\u0026hl=en-US\u0026"]],[["https://mts0.googleapis.com/vt?lyrs=h@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.googleapis.com/vt?lyrs=h@279000000\u0026src=api\u0026hl=en-US\u0026"],null,null,null,null,"h@279000000",["https://mts0.google.com/vt?lyrs=h@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.google.com/vt?lyrs=h@279000000\u0026src=api\u0026hl=en-US\u0026"]],[["https://mts0.googleapis.com/vt?lyrs=t@132,r@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.googleapis.com/vt?lyrs=t@132,r@279000000\u0026src=api\u0026hl=en-US\u0026"],null,null,null,null,"t@132,r@279000000",["https://mts0.google.com/vt?lyrs=t@132,r@279000000\u0026src=api\u0026hl=en-US\u0026","https://mts1.google.com/vt?lyrs=t@132,r@279000000\u0026src=api\u0026hl=en-US\u0026"]],null,null,[["https://cbks0.googleapis.com/cbk?","https://cbks1.googleapis.com/cbk?"]],[["https://khms0.googleapis.com/kh?v=84\u0026hl=en-US\u0026","https://khms1.googleapis.com/kh?v=84\u0026hl=en-US\u0026"],null,null,null,null,"84",["https://khms0.google.com/kh?v=84\u0026hl=en-US\u0026","https://khms1.google.com/kh?v=84\u0026hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt?hl=en-US\u0026","https://mts1.googleapis.com/mapslt?hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt/ft?hl=en-US\u0026","https://mts1.googleapis.com/mapslt/ft?hl=en-US\u0026"]],[["https://mts0.googleapis.com/vt?hl=en-US\u0026","https://mts1.googleapis.com/vt?hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt/loom?hl=en-US\u0026","https://mts1.googleapis.com/mapslt/loom?hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt?hl=en-US\u0026","https://mts1.googleapis.com/mapslt?hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt/ft?hl=en-US\u0026","https://mts1.googleapis.com/mapslt/ft?hl=en-US\u0026"]],[["https://mts0.googleapis.com/mapslt/loom?hl=en-US\u0026","https://mts1.googleapis.com/mapslt/loom?hl=en-US\u0026"]]],["en-US","US",null,0,null,null,"https://maps.gstatic.com/mapfiles/","https://csi.gstatic.com","https://maps.googleapis.com","https://maps.googleapis.com",null,"https://maps.google.com"],["https://maps.gstatic.com/maps-api-v3/api/js/18/12","3.18.12"],[2635386244],1,null,null,null,null,null,"",null,null,1,"https://khms.googleapis.com/mz?v=159\u0026",null,"https://earthbuilder.googleapis.com","https://earthbuilder.googleapis.com",null,"https://mts.googleapis.com/vt/icon",[["https://mts0.googleapis.com/vt","https://mts1.googleapis.com/vt"],["https://mts0.googleapis.com/vt","https://mts1.googleapis.com/vt"],[null,[[0,"m",279000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[47],[37,[["smartmaps"]]]]],0],[null,[[0,"m",279000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[47],[37,[["smartmaps"]]]]],3],[null,[[0,"m",279000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[50],[37,[["smartmaps"]]]]],0],[null,[[0,"m",279000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[50],[37,[["smartmaps"]]]]],3],[null,[[4,"t",132],[0,"r",132000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[63],[37,[["smartmaps"]]]]],0],[null,[[4,"t",132],[0,"r",132000000]],[null,"en-US","US",null,18,null,null,null,null,null,null,[[63],[37,[["smartmaps"]]]]],3],[null,null,[null,"en-US","US",null,18],0],[null,null,[null,"en-US","US",null,18],3],[null,null,[null,"en-US","US",null,18],6],[null,null,[null,"en-US","US",null,18],0],["https://mts0.google.com/vt","https://mts1.google.com/vt"],"/maps/vt",279000000,132],2,500,["https://geo0.ggpht.com/cbk","https://g0.gstatic.com/landmark/tour","https://g0.gstatic.com/landmark/config","","https://www.google.com/maps/preview/log204","","https://static.panoramio.com.storage.googleapis.com/photos/"],["https://www.google.com/maps/api/js/master?pb=!1m2!1u18!2s12!2sen-US!3sUS!4s18/12","https://www.google.com/maps/api/js/widget?pb=!1m2!1u18!2s12!2sen-US"],1,0], loadScriptTime);
-  };
-  var loadScriptTime = (new Date).getTime();
-  getScript("https://maps.gstatic.com/maps-api-v3/api/js/18/12/main.js");
-})();
 var UsersCollection = Backbone.Collection.extend({
 	url: "/users"
 })
@@ -14490,10 +14469,10 @@ var UsersCollection = Backbone.Collection.extend({
 
 var StartEndPoints = Backbone.View.extend({
 	tagName: "div",
-	template: _.template($("#start-end-points").html() ),
-	events: {
-		"click button.StartEnd" : "getStartEndPoints"
+	attributes: {
+		class: "col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 search-box"
 	},
+	template: _.template($("#start-end-points").html() ),
 	initialize: function(){
 		this.render()
 	},
@@ -14505,23 +14484,27 @@ var StartEndPoints = Backbone.View.extend({
 	getStartEndPoints: function(){
 		startingPoint = $("input.start").val()
 		endingPoint = $("input.end").val()
-		$.ajax({
-			type: "POST",
-			url: "/route", 
-			data: {
-				startingPoint: startingPoint,
-				endingPoint: endingPoint
-			}
-		}).done(function(results){
-			var location = new LocationView({ location_results: results.location })
-			var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
-			var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
-			var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
-			var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
-			var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
-		})
+		return [startingPoint, endingPoint]
 	}
 })
+
+
+var SpinningWheel = Backbone.View.extend({
+	tagName: "div", 
+	attributes: {
+		class: "spinningWheel col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6"
+	},
+	template: _.template($("#spinningWheel").html() ),
+	initialize: function(){
+		this.render()
+	},
+	render: function(){
+		var spinningWheel = this.$el.html( this.template() )
+		$("div.container").empty()
+		$("div.container").append(spinningWheel)
+	}
+})
+
 
 var LocationView = Backbone.View.extend({
 	tagName: "div", 
@@ -14529,10 +14512,10 @@ var LocationView = Backbone.View.extend({
 		class: "location col-xs-12 col-s-12 col-md-12 col-lg-12"
 	},
 	template: _.template( $("#location-names").html() ), 
-		initialize: function(results){
-			startLocation = results.location_results.start_location;
-			endLocation = results.location_results.end_location;
-			this.render()
+	initialize: function(results){
+		startLocation = results.location_results.start_location;
+		endLocation = results.location_results.end_location;
+		this.render()
 	},
 	render: function(){
 		var locationView = this.$el.html( this.template() )
@@ -14582,29 +14565,6 @@ var WalkingView = Backbone.View.extend({
 	}
 })
 
-var TransitView = Backbone.View.extend({
-	tagName: "div",
-	attributes: {
-		class: "transit col-xs-12 col-s-12 col-md-12 col-lg-12"
-	},
-	template: _.template($("#transit-view").html() ),
-	initialize: function(results, location_results){
-		transit_icon = results.transit_results.transit_icon;
-		route_icon = results.transit_results.route_icon;
-		duration = results.transit_results.duration;
-		distance = results.transit_results.distance;
-		startLat = results.location_results.start_lat;
-		startLng = results.location_results.start_lng;
-		endLat = results.location_results.end_lat;
-		endLng = results.location_results.end_lng;
-		this.render()
-	},
-	render: function(){
-		var transitView = this.$el.html( this.template() )
-		$("div.container").append(transitView)
-	}
-})
-
 
 var BikingView = Backbone.View.extend({
 	tagName: "div",
@@ -14628,6 +14588,30 @@ var BikingView = Backbone.View.extend({
 	}
 })
 
+
+var TransitView = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		class: "transit col-xs-12 col-s-12 col-md-12 col-lg-12"
+	},
+	template: _.template($("#transit-view").html() ),
+	initialize: function(results, location_results){
+		transit_icon = results.transit_results.transit_icon;
+		route_icon = results.transit_results.route_icon;
+		duration = results.transit_results.duration;
+		distance = results.transit_results.distance;
+		startLat = results.location_results.start_lat;
+		startLng = results.location_results.start_lng;
+		endLat = results.location_results.end_lat;
+		endLng = results.location_results.end_lng;
+		this.render()
+	},
+	render: function(){
+		var transitView = this.$el.html( this.template() )
+		$("div.container").append(transitView)
+	}
+})
+
 var TaxiView = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
@@ -14636,6 +14620,7 @@ var TaxiView = Backbone.View.extend({
 	template: _.template($("#taxi-view").html() ),
 	initialize: function(results, location_results){
 		price = results.taxi_results.price;
+		distance = results.taxi_results.distance;
 		startLat = results.location_results.start_lat;
 		startLng = results.location_results.start_lng;
 		endLat = results.location_results.end_lat;
@@ -14656,7 +14641,8 @@ var map;
 var GoogleMapsView = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
-		id: "map-canvas"
+		id: "map-canvas",
+		class: "col-xs-12 col-sm-12 col-md-8 col-lg-8"
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
@@ -14667,20 +14653,20 @@ var GoogleMapsView = Backbone.View.extend({
 		transitType = params.transitType
 		directionsDisplay = new google.maps.DirectionsRenderer();
 		startLocation = new google.maps.LatLng(startLat, startLng);
-
+		directionsDiv = document.getElementById('directions-panel')
   	mapOptions = {
     	zoom:5,
     	center: startLocation
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
+  
   	if (transitType == "WALKING"){
+  		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteWalking()
   	}
-  	 // else if (transitType == "BICYCLING"){
-  		// this.calcRouteBiking()
-  	// }
   	else if (transitType == "TRANSIT"){
+  		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteTransit()
   	}
 	},
@@ -14688,6 +14674,7 @@ var GoogleMapsView = Backbone.View.extend({
 		var googleMaps = this.$el.html( this.template() )
 		$("div.container").empty()
 		$("div.container").append(googleMaps)
+		$("div.container").append(directionsDiv)
 	},
 	calcRouteWalking: function() {
 	  request = {
@@ -14701,18 +14688,6 @@ var GoogleMapsView = Backbone.View.extend({
     	}
   	});
 	},
-	// calcRouteBiking: function() {
- //  request = {
- //    origin:"" + startLat +","+ startLng,
- //    destination:"" + endLat+","+endLng,
- //    travelMode: google.maps.TravelMode.BICYCLING
- //  };
- //  directionsService.route(request, function(result, status) {
- //    if (status == google.maps.DirectionsStatus.OK) {
- //      directionsDisplay.setDirections(result);
- //    	}
- //  	});
-	// },
 	calcRouteTransit: function() {
   request = {
     origin:"" + startLat +","+ startLng,
@@ -14727,16 +14702,20 @@ var GoogleMapsView = Backbone.View.extend({
 	}
 })
 
-var GoogleMapsView2 = Backbone.View.extend({
+
+var GoogleMapsBikeView = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
-		id: "map-canvas"
+		id: "map-canvas",
+		class: "col-xs-12 col-sm-12 col-md-8 col-lg-8"
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
+		directionsDiv = document.getElementById('directions-panel')
 		stations = Object.keys(params.stations)
 		mapPoints = []
-
+		infowindow = new google.maps.InfoWindow({
+ 		});
 		for (var i=0; i< stations.length; i++){
 			subArray = []
 			subArray.push(stations[i])
@@ -14744,6 +14723,18 @@ var GoogleMapsView2 = Backbone.View.extend({
 			subArray.push(params.stations[stations[i]][0].lng)
 			subArray.push(i+1)
 			mapPoints.push(subArray)
+		}
+
+		contentString = []
+		for (var i=0; i < stations.length; i++){
+			content = "<div id='citibike_popover'> <h3>Station Location: " + stations[i] + "<h3>"
+			object = params["stations"][stations[i]][0]
+			if (_.has(object, "bikes")){
+				content += "<p>Bikes available: " + params["stations"][stations[i]][0]["bikes"] + "</p></div>"
+			} else {
+			content += "<p>Docks available: " + params["stations"][stations[i]][0]["docks"] + "</p></div>"
+			}
+			contentString.push(content)
 		}
 
 		startLat = params.latLng.startLat;
@@ -14760,13 +14751,17 @@ var GoogleMapsView2 = Backbone.View.extend({
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
+  	directionsDisplay.setPanel(directionsDiv);
   	this.calcRouteBiking()
   	this.setMarkers(map, mapPoints)
+  	
+
 	},
 	render: function(){
 		var googleMaps = this.$el.html( this.template() )
 		$("div.container").empty()
 		$("div.container").append(googleMaps)
+		$("div.container").append(directionsDiv)
 	},
 	calcRouteBiking: function() {
   request = {
@@ -14792,6 +14787,8 @@ var GoogleMapsView2 = Backbone.View.extend({
       type: 'poly'
   	};
   	for (var i = 0; i < locations.length; i++) {
+	    var content = contentString[i]
+	
 	    var station = locations[i];
 	    var myLatLng = new google.maps.LatLng(station[1], station[2]);
 	    var marker = new google.maps.Marker({
@@ -14800,11 +14797,40 @@ var GoogleMapsView2 = Backbone.View.extend({
 	        icon: image,
 	        shape: shape,
 	        title: station[0],
-	        zIndex: station[3]
+	        zIndex: station[3],
 	    });
-	  }
+	  	this.setContent(content, marker)
+		}
+	},
+	setContent: function(content, marker){
+		google.maps.event.addListener(marker, 'click', function() {
+			infowindow.setContent( content )
+			infowindow.open(map,this);
+		})
 	}
 })
+
+var AllResults = Backbone.View.extend({
+	tagName: "div",
+	attributes: {
+		class: "allResults col-xs-12 col-s-12 col-md-12 col-lg-12"
+	},
+	template: _.template($("#all-results").html() ),
+	initialize: function(results){
+		startLat = startLat
+		startLng = startLng
+		endLat = endLat
+		endLng = endLng
+		this.render()
+	},
+	render: function(){
+		var allResults = this.$el.html( this.template() )
+		$("div.container").append(allResults)
+	}
+})
+
+
+
 
 // parse params function
 function parseParams(queryParams){
@@ -14825,6 +14851,8 @@ function parseParams(queryParams){
 var Router = Backbone.Router.extend({
 	routes: {
 		"": "home",
+		"search": "search",
+		"searchResults": "searchResults", 
 		"walking": "walking",
 		"transit": "transit",
 		"biking": "biking",
@@ -14834,19 +14862,44 @@ var Router = Backbone.Router.extend({
 var router = new Router;
 
 router.on("route:home", function(){
-var startEndPoints = new StartEndPoints
+	startEndPoints = new StartEndPoints
+})
+
+router.on("route:search", function(){
+
+	var sendStartEndPoints = startEndPoints.getStartEndPoints()
+	var gettingResults = new SpinningWheel
+	$.ajax({
+		type: "POST",
+		url: "/route", 
+		data: {
+			startingPoint: sendStartEndPoints[0],
+			endingPoint: sendStartEndPoints[1]
+		}
+	}).done(function(results){
+		var location = new LocationView({ location_results: results.location })
+		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
+		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
+		var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+		var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
+		var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
+	})
 })
 
 router.on("route:walking", function(queryParams){
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
 	walkingMap.render()
+	var backButton = new AllResults ({ latLng:params })
 })
+
 router.on("route:transit", function(queryParams){
 	params = parseParams(queryParams)
 	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"TRANSIT" })
 	walkingMap.render()
+	var backButton = new AllResults ({ latLng:params })
 })
+
 router.on("route:biking", function(queryParams){
 	params = parseParams(queryParams)
 	$.ajax({
@@ -14856,17 +14909,40 @@ router.on("route:biking", function(queryParams){
 			params: params
 		}
 	}).done(function(results){
-		console.log(results)
-		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
+		var bikingMap = new GoogleMapsBikeView({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
+		var backButton = new AllResults ({ latLng:params })
 	})
 
 })
+
 router.on("route:taxi", function(queryParams){
 	params = parseParams(queryParams)
-	console.log("taxi router")
+	var backButton = new AllResults ({ latLng:params })
 })
 
+router.on("route:searchResults", function(queryParams){
+
+	params = parseParams(queryParams)
+	$.ajax({
+		type: "POST",
+		url: "/route", 
+		data: {
+			startLat: params.startLat,
+			startLng: params.startLng,
+			endLat: params.endLat,
+			endLng: params.endLng
+		}
+	}).done(function(results){
+		console.log(results)
+		var location = new LocationView({ location_results: results.location })
+		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
+		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })
+		var biking = new BikingView({ biking_results: results.biking, location_results: results.location })
+		var transit = new TransitView({ transit_results: results.transit, location_results: results.location })
+		var taxi = new TaxiView({ taxi_results: results.taxi, location_results: results.location })
+	})
+})
 
 Backbone.history.start()
 ;
@@ -14889,8 +14965,9 @@ Backbone.history.start()
 
 
 
-// require application
 
+
+// require application
 
 
 ;
