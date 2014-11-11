@@ -21,10 +21,8 @@
 </script>
 
 <script type="text/template" id="spinningWheel">
-<%= image_tag "loading.gif" %>
+	<div class="wheel"><%= image_tag "loading.gif" %></div>
 </script>
-
-
 
 <script type="text/template" id="location-names">
 		<p class="search-results-location-name"><strong>Start: </strong><%%= startLocation %> <br>
@@ -32,41 +30,73 @@
 </script> 
 
 <script type="text/template" id="weather-view">
-	<img src='<%% print(icon) %>'> <%%= conditions %>, <%%= temp %>°F
+	<hr class="divider"> 
+	<div class="row">
+		<span class="weather"><img src='<%% print(icon) %>'></span>
+		<span class="conditions"><%%= conditions %></span>
+		<span class="temp"><%%= temp %>°F </span>
+	</div>
 </script>
 
 <script type="text/template" id="walking-view">
-	<a href="#walking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
-	<%= image_tag "walk_symbol.png" %>
-	<%%= distance %>, <%%= time %>, <%%= calories %>
+	<hr class="thin-section">
+	<div class="row">
+		<a href="#walking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
+		<span class="symbol"><%= image_tag "walk_symbol.png" %></span>
+		<span class="distance"><%%= distance %></span>
+		<div class="search-info">
+			<span class="time"><%%= time %></span>
+			<span class="calories"><%%= calories %></span>
+		</div>
+	</div>
 </script>
 
 <script  type="text/template" id="transit-view">
-	<%= image_tag "transit_symbol.png" %>
-	<a href="#transit?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
-	<%% if (transit_icon) {%>
-		<img src='<%% print(transit_icon) %>'>
-	<%% } %>
-	<%% if (route_icon) {%>
-		<img src='<%% print(route_icon) %>'>
-	<%% } %>
- <%%= duration %>, <%%= distance %>
+	<hr class="thin-section">
+	<div class="row">
+		<span class="symbol"><%= image_tag "transit_symbol.png" %></span>
+		<a href="#transit?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
+		<div class="search-info">
+			<span class="time"><%%= duration %></span>
+		
+		 	<span class="icon">
+				<%% if (transit_icon) {%>
+					<img src='<%% print(transit_icon) %>'>
+				<%% } %>
+				<%% if (route_icon) {%>
+					<img src='<%% print(route_icon) %>'>
+				<%% } %>
+			</span>
+		</div>
+		<span class="distance"><%%= distance %></span>
+	</div>
 </script>
 
 <script type="text/template" id="biking-view">
-	<a href="#biking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
-	<%= image_tag "bike_symbol.png" %>
-	<%%= distance %>, <%%= time %>, <%%= calories %>
+	<hr class="thin-section">
+	<div class="row">
+		<a href="#biking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
+		<span class="symbol"><%= image_tag "bike_symbol.png" %></span>
+		<span class="distance"><%%= distance %></span>
+		<div class="search-info">
+			<span class="time"><%%= time %></span>
+			<span class="calories"><%%= calories %></span>
+		</div>
+	</div>
 </script>
 
 <script type="text/template" id="taxi-view">
-		<a href="#taxi?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span></span></a>
-	<%= image_tag "taxi_symbol.png" %><%%= price %>
+	<hr class="thin-section">
+	<div class="row">
+		<a href="#taxi?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
+		<span class="symbol"><%= image_tag "taxi_symbol.png" %></span>
+		<span class="price"><%%= price %></span>
+	</div>
 </script>
 
 
 <script type="text/template" id="google-maps-view">
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" id="map-container">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" id="map-container">
 	</div>
 </script>
 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" id="directions-panel"></div>

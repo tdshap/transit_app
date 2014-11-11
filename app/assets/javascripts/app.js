@@ -236,7 +236,7 @@ var GoogleMapsView = Backbone.View.extend({
 })
 
 
-var GoogleMapsView2 = Backbone.View.extend({
+var GoogleMapsBikeView = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
 		id: "map-canvas",
@@ -443,7 +443,7 @@ router.on("route:biking", function(queryParams){
 			params: params
 		}
 	}).done(function(results){
-		var bikingMap = new GoogleMapsView2({ latLng:params, transitType:"BICYCLING", stations:results })
+		var bikingMap = new GoogleMapsBikeView({ latLng:params, transitType:"BICYCLING", stations:results })
 		bikingMap.render()
 		var backButton = new AllResults ({ latLng:params })
 	})
