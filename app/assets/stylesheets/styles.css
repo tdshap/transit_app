@@ -1,68 +1,119 @@
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
 body{
 	font-family: "Droid Sans", sans-serif;
+	background-image: url("mtamap.jpg");
 }
 
 
 
+/*start and end points page*/
+div.start-input{
+	padding: 5px 0;
+}
 
-div.container{
-	/*border: 3px;*/
+div.end-input{
+	padding: 5px 0;
+}
+div.button-transit{
+	padding: 5px 0;
+}
+a.getResults{
+	margin-bottom: 5px;
+}
+input.start{
+	border: 2px solid black; 
+}
+input.end{
+	border: 2px solid black; 
+}
+div.search-box{
+	background-color: white;
 	border: 3px ;
+	border-style: solid;
+	border-color: #35478C;
+	padding: 0;
+	border-radius: 10px
+
+}
+div.container{
+	/*border: 3px ;
 	border-style: solid;
 	border-color: #16193b;
 	padding: 0;
 	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px
+	border-bottom-right-radius: 10px*/
+}
+
+
+/*all search results page*/
+div.location {
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
+	position:relative;
+	background-color: white;
+	padding: 0;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+
+}
+div.weather {
+	height: 75px;
+	font-size: 20px;
+	position:relative;
+	text-align: center;
+	background-color: white;
+	padding: 0;
+}
+div.walking {
+	background-color: #ADD5F7;
+	font-size: 20px;
+	position:relative;
+	padding: 0;
+
+}
+div.biking {
+	background-color: #7FB2F0;
+	height: 100px;
+	font-size: 20px;
+	position:relative;
+	padding: 0;
+}
+div.transit {
+	background-color: #ADD5F7;
+	height: 100px;
+	font-size: 20px;
+	position:relative;
+	padding: 0;
 
 }
 div.taxi {
 	background-color: #7FB2F0;
 	height: 100px;
-	font-size: 50px;
+	font-size: 20px;
 	position:relative;
 	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px
+	border-bottom-right-radius: 10px;
+	padding: 0;
 }
 
-div.biking {
-	background-color: #7FB2F0;
-	height: 100px;
-	font-size: 50px;
-	position:relative
-}
-
-div.transit {
-	background-color: #ADD5F7;
-	height: 100px;
-	font-size: 50px;
-	position:relative
-
-}
-
-div.walking {
-	background-color: #ADD5F7;
-	height: 100px;
-	font-size: 50px;
+hr.divider {
+	height: 2px;
+	background: #35478C;
 	position:relative;
+	margin: 5px 0;
 
 }
-
-div.weather {
-	height: 50px;
-	font-size: 20px;
+hr.thin-section{
+	height: 1px;
+	background: #35478C;
+	margin: 0;
+	padding: 0;
 	position:relative;
-	text-align: center;
-	padding: 10px;
-
-
 }
 
-div.location {
-	height: 50px;
-	font-size: 20px;
-	text-align: center;
-
+div.row{
+	margin: 0;
 }
 
 span.link {
@@ -73,17 +124,41 @@ span.link {
   left: 0;
 }
 
-hr.divider {
-	height: 3px;
-	background: #16193b;
+div.symbol{
+	padding: 0;
+}
+.img-symbol{
+/*	width: 100px;*/
+	margin: 0 auto;
+}
+img.walk-symbol{
+	width: 67px;
+	margin-left: 14%;
+}
+img.bike-symbol{
+	width: 100px;
+	margin-left: 4%;
 
 }
-hr.thin-section{
-	height: 1px;
-	background: #16193b;
-	margin: 1px 0;
+img.transit-symbol{
+	width:53px;
+	margin-left: 15%;
+
+}
+img.taxi-symbol{
+	width: 87px;
+	margin-left: 5%;
+
 }
 
+div.distance{
+	height: 28px;
+	margin-top: 36px;
+	font-size: ;
+	font-weight: bold;
+}
+
+/*maps view*/
 
 #map-container {
    height: 400px;
@@ -113,60 +188,42 @@ hr.thin-section{
 	height: 100%;
 	float: right;
 	overflow: auto;
+	background-color: white;
 }
 #citibike_popover p h3 {
 	font-size: 15px
 
 }
 .logo{
-	margin-top: -18.5px;
+	margin-top: -15px;
 }
 label{
 	background-color: white;
-	opacity: 0.5;
-}
-span.symbol{
-	float: left;
-	padding-left: 20px;
-	padding-right: 15px;
-}
-
-span.price{
-	float: right;
-	padding-top: 10px;
-	padding-right: 20px;
-	font-size: 35px;
-	font-weight: bold;
-}
-
-span.time{
-	font-size: 35px;
-}
-
-span.calories {
-	font-size: 20px;
-}
-
-div.wheel{
-
-
-}
-
-span.icon{
-	font-size: 20px;
+	color: #35478C;
 }
 
 
 div.search-info{
-	float: right;
-	padding-top: 10px;
+	padding-top: 17px;
 	padding-right: 20px;
 	font-weight: bold;
 	display: inline-block;
+	text-align: center;
+}
+div.price{
+	padding-top: 36px;
+	padding-right: 20px;
+	font-weight: bold;
+	display: inline-block;
+	text-align: center;
 }
 
 .enter{
 	background-image: url("https://c2.staticflickr.com/8/7146/6758021845_6aa365332f_z.jpg");
 	min-height: 400px;
+}
+
+.navbar{
+	border-radius: 0px;
 }
 

@@ -6,6 +6,9 @@ var UsersCollection = Backbone.Collection.extend({
 
 var StartEndPoints = Backbone.View.extend({
 	tagName: "div",
+	attributes: {
+		class: "col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 search-box"
+	},
 	template: _.template($("#start-end-points").html() ),
 	initialize: function(){
 		this.render()
@@ -26,7 +29,7 @@ var StartEndPoints = Backbone.View.extend({
 var SpinningWheel = Backbone.View.extend({
 	tagName: "div", 
 	attributes: {
-		class: "spinningWheel col-xs-12 col-s-12 col-md-12 col-lg-12"
+		class: "spinningWheel col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6"
 	},
 	template: _.template($("#spinningWheel").html() ),
 	initialize: function(){
@@ -154,6 +157,7 @@ var TaxiView = Backbone.View.extend({
 	template: _.template($("#taxi-view").html() ),
 	initialize: function(results, location_results){
 		price = results.taxi_results.price;
+		distance = results.taxi_results.distance;
 		startLat = results.location_results.start_lat;
 		startLng = results.location_results.start_lng;
 		endLat = results.location_results.end_lat;
@@ -410,7 +414,6 @@ router.on("route:search", function(){
 			endingPoint: sendStartEndPoints[1]
 		}
 	}).done(function(results){
-		console.log(results)
 		var location = new LocationView({ location_results: results.location })
 		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
 		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })

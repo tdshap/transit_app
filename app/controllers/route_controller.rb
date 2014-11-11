@@ -99,6 +99,7 @@ class RouteController < ApplicationController
 		end 
 
 		uberX_estimate = uber["prices"][0]["estimate"]  
+		uber_distance = uber["prices"][0]["distance"]
 
 		results = {
 			:location => {
@@ -131,7 +132,8 @@ class RouteController < ApplicationController
 				:calories => walking_calories
 			},
 			:taxi => {
-				:price => uberX_estimate
+				:price => uberX_estimate,
+				:distance => uber_distance
 			}
 		}
 		render :json => results
