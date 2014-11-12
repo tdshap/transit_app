@@ -242,4 +242,7 @@ a.back:hover{
 	font: white;
 }
 
+div#citibike_popover > p{
+	font-size: 12px;
+}
 
