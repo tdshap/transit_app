@@ -201,7 +201,7 @@ var GoogleMapsView = Backbone.View.extend({
   	
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
- 
+
   	if (transitType == "WALKING"){	
   		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteWalking()
@@ -261,7 +261,6 @@ var GoogleMapsBikeView = Backbone.View.extend({
 		directionsDivArrary = this.createDirectionsPanel()
 		directionsDiv = directionsDivArrary[0]
 		
-		
 		stations = Object.keys(params.stations)
 		mapPoints = []
 		infowindow = new google.maps.InfoWindow({
@@ -300,7 +299,6 @@ var GoogleMapsBikeView = Backbone.View.extend({
     	center: startLocation
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
-		
   	directionsDisplay.setMap(map);
   	directionsDisplay.setPanel(directionsDiv); 
   	this.calcRouteBiking()
@@ -311,8 +309,6 @@ var GoogleMapsBikeView = Backbone.View.extend({
 	render: function(){
 		var googleMaps = this.$el.html( this.template() )
 		$("div.container").append(googleMaps)
-
-		console.log(googleMaps)
 		$("div.container").append(directionsDiv)
 	},
 	createDirectionsPanel: function(){
@@ -377,10 +373,6 @@ var AllResults = Backbone.View.extend({
 		startLng = results.latLng.startLng;
 		endLat = results.latLng.endLat;
 		endLng = results.latLng.endLng;
-		console.log(startLat)
-		console.log(startLng)
-		console.log(endLat)
-		console.log(endLng)
 
 		this.render()
 	},
