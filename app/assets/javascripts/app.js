@@ -183,33 +183,38 @@ var GoogleMapsView = Backbone.View.extend({
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
+		directionsDivArrary = this.createDirectionsPanel()
+		directionsDiv = directionsDivArrary[0]
 		startLat = params.latLng.startLat;
 		startLng = params.latLng.startLng;
 		endLat = params.latLng.endLat;
 		endLng = params.latLng.endLng;
 		transitType = params.transitType
+		
 		directionsDisplay = new google.maps.DirectionsRenderer();
+		
 		startLocation = new google.maps.LatLng(startLat, startLng);
-		directionsDiv = document.getElementById('directions-panel')
   	mapOptions = {
     	zoom:5,
     	center: startLocation
   	}
+  	
   	map = new google.maps.Map(this.$el[0], mapOptions);
   	directionsDisplay.setMap(map);
-  
-  	if (transitType == "WALKING"){
+ 
+  	if (transitType == "WALKING"){	
   		directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteWalking()
   	}
-  	else if (transitType == "TRANSIT"){
-  		directionsDisplay.setPanel(directionsDiv);
+  	else if (transitType == "TRANSIT"){ 		
+			directionsDisplay.setPanel(directionsDiv);
   		this.calcRouteTransit()
-  	}
+  	};
+
+  	this.render()
 	},
 	render: function(){
 		var googleMaps = this.$el.html( this.template() )
-		$("div.container").empty()
 		$("div.container").append(googleMaps)
 		$("div.container").append(directionsDiv)
 	},
@@ -236,7 +241,12 @@ var GoogleMapsView = Backbone.View.extend({
       directionsDisplay.setDirections(result);
     	}
   	});
-	}
+	},
+	createDirectionsPanel: function(){
+		var directionsDiv = $(document.createElement("div"))
+		directionsDiv.addClass("directions-panel col-xs-12 col-sm-12 col-md-4 col-lg-4")
+		return directionsDiv
+	},
 })
 
 
@@ -248,7 +258,10 @@ var GoogleMapsBikeView = Backbone.View.extend({
 	},
 	template: _.template($("#google-maps-view").html() ),
 	initialize: function(params){
-		directionsDiv = document.getElementById('directions-panel')
+		directionsDivArrary = this.createDirectionsPanel()
+		directionsDiv = directionsDivArrary[0]
+		
+		
 		stations = Object.keys(params.stations)
 		mapPoints = []
 		infowindow = new google.maps.InfoWindow({
@@ -279,26 +292,33 @@ var GoogleMapsBikeView = Backbone.View.extend({
 		endLat = params.latLng.endLat;
 		endLng = params.latLng.endLng;
 		transitType = params.transitType
+		
 		directionsDisplay = new google.maps.DirectionsRenderer();
 		startLocation = new google.maps.LatLng(startLat, startLng);
-
   	mapOptions = {
     	zoom:3,
     	center: startLocation
   	}
   	map = new google.maps.Map(this.$el[0], mapOptions);
+		
   	directionsDisplay.setMap(map);
-  	directionsDisplay.setPanel(directionsDiv);
+  	directionsDisplay.setPanel(directionsDiv); 
   	this.calcRouteBiking()
   	this.setMarkers(map, mapPoints)
-  	
 
+  	this.render()  	
 	},
 	render: function(){
 		var googleMaps = this.$el.html( this.template() )
-		$("div.container").empty()
 		$("div.container").append(googleMaps)
+
+		console.log(googleMaps)
 		$("div.container").append(directionsDiv)
+	},
+	createDirectionsPanel: function(){
+		var div = $(document.createElement("div"))
+		div.addClass("directions-panel col-xs-12 col-sm-12 col-md-4 col-lg-4")
+		return div
 	},
 	calcRouteBiking: function() {
   request = {
@@ -325,7 +345,6 @@ var GoogleMapsBikeView = Backbone.View.extend({
   	};
   	for (var i = 0; i < locations.length; i++) {
 	    var content = contentString[i]
-	
 	    var station = locations[i];
 	    var myLatLng = new google.maps.LatLng(station[1], station[2]);
 	    var marker = new google.maps.Marker({
@@ -354,14 +373,20 @@ var AllResults = Backbone.View.extend({
 	},
 	template: _.template($("#all-results").html() ),
 	initialize: function(results){
-		startLat = startLat
-		startLng = startLng
-		endLat = endLat
-		endLng = endLng
+		startLat = results.latLng.startLat;
+		startLng = results.latLng.startLng;
+		endLat = results.latLng.endLat;
+		endLng = results.latLng.endLng;
+		console.log(startLat)
+		console.log(startLng)
+		console.log(endLat)
+		console.log(endLng)
+
 		this.render()
 	},
 	render: function(){
 		var allResults = this.$el.html( this.template() )
+		$("div.container").empty()
 		$("div.container").append(allResults)
 	}
 })
@@ -425,16 +450,15 @@ router.on("route:search", function(){
 
 router.on("route:walking", function(queryParams){
 	params = parseParams(queryParams)
-	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
-	walkingMap.render()
 	var backButton = new AllResults ({ latLng:params })
+	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"WALKING" })
+	
 })
 
 router.on("route:transit", function(queryParams){
-	params = parseParams(queryParams)
-	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"TRANSIT" })
-	walkingMap.render()
+	params = parseParams(queryParams)	
 	var backButton = new AllResults ({ latLng:params })
+	var walkingMap = new GoogleMapsView({ latLng:params, transitType:"TRANSIT" })
 })
 
 router.on("route:biking", function(queryParams){
@@ -446,11 +470,9 @@ router.on("route:biking", function(queryParams){
 			params: params
 		}
 	}).done(function(results){
-		var bikingMap = new GoogleMapsBikeView({ latLng:params, transitType:"BICYCLING", stations:results })
-		bikingMap.render()
 		var backButton = new AllResults ({ latLng:params })
+		var bikingMap = new GoogleMapsBikeView({ latLng:params, transitType:"BICYCLING", stations:results })
 	})
-
 })
 
 router.on("route:taxi", function(queryParams){
@@ -459,8 +481,7 @@ router.on("route:taxi", function(queryParams){
 })
 
 router.on("route:searchResults", function(queryParams){
-
-	params = parseParams(queryParams)
+	params = parseParams(queryParams)	
 	$.ajax({
 		type: "POST",
 		url: "/route", 
@@ -471,7 +492,6 @@ router.on("route:searchResults", function(queryParams){
 			endLng: params.endLng
 		}
 	}).done(function(results){
-		console.log(results)
 		var location = new LocationView({ location_results: results.location })
 		var weather = new WeatherView({ weather_results: results.weather, location_results: results.location })
 		var walking = new WalkingView({ walking_results: results.walking, location_results: results.location })

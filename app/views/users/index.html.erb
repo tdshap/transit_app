@@ -1,7 +1,8 @@
 <%= render template: "shared/nav_bar" %>
 
-<div class="container">
-
+<div class="container"></div>
+<!-- <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" id="directions-panel"></div>
+ --><!-- search page -->
 <script type="text/template" id="start-end-points">
 	<div class="row">
 		<div class="start-input">
@@ -22,15 +23,20 @@
 	</div>
 </script>
 
+<!-- gif while page is loading -->
 <script type="text/template" id="spinningWheel">
 	<div class="wheel"><%= image_tag "loading.gif" %></div>
 </script>
 
+
+<!-- search results in 1 major view -->
+	<!-- location -->
 <script type="text/template" id="location-names">
 		<p class="search-results-location-name"><strong>Start: </strong><%%= startLocation %> <br>
 		<strong>End: </strong><%%= endLocation %></p>
 </script> 
 
+	<!-- weather -->
 <script type="text/template" id="weather-view">
 	<hr class="divider"> 
 	<div class="row">
@@ -40,6 +46,7 @@
 	</div>
 </script>
 
+	<!-- walking option -->
 <script type="text/template" id="walking-view">
 	<hr class="thin-section">
 	<div class="symbol col-xs-4 col-sm-3 col-md-2 col-lg-2"><%= image_tag "walk_symbol.png", :class => "walk-symbol" %></div>
@@ -52,6 +59,7 @@
 	<a href="#walking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
 </script>
 
+	<!-- biking option -->
 <script type="text/template" id="biking-view">
 	<hr class="thin-section">
 	<div class="symbol col-xs-4 col-sm-3 col-md-2 col-lg-2"><%= image_tag "bike_symbol.png", :class => "bike-symbol" %></div>
@@ -63,6 +71,7 @@
 	<a href="#biking?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
 </script>
 
+	<!-- transit option -->
 <script  type="text/template" id="transit-view">
 	<hr class="thin-section">
 		<div class="symbol col-xs-4 col-sm-3 col-md-2 col-lg-2"><%= image_tag "transit_symbol.png", :class => "transit-symbol" %></div>
@@ -84,29 +93,29 @@
 </script>
 
 
-
+	<!-- taxi option -->
 <script type="text/template" id="taxi-view">
 	<hr class="thin-section">
 	<div class="symbol col-xs-4 col-sm-3 col-md-2 col-lg-2"><%= image_tag "taxi_symbol.png", :class => "taxi-symbol" %></div>
 	<div class="distance col-xs-3 col-sm-3 col-md-2 col-lg-2"><%%= distance %>mi</div>
 	<div class="price col-xs-offset-1 col-sm-offset-3 col-md-offset-6 col-lg-offset-6 col-xs-4 col-sm-3 col-md-2 col-lg-2"><%%= price %></div>
-	
-
 	<a href="#taxi?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>"><span class="link"></span></a>
 </script>
 
+<!-- third view = maps -->
 
+<!-- google maps -->
 <script type="text/template" id="google-maps-view">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" id="map-container">
 	</div>
 </script>
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" id="directions-panel"></div>
-	</div>
+	
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="+ GOOGLE_MAPS_API_KEY></script>
 
-
+<!-- back and directions button -->
 <script type="text.template" id="all-results">
-<a href="#searchResults?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>" class="btn btn-primary col-xs-12 col-sm-12 col-md-8 col-lg-8">Back to All Results</a>
+	<a href="#searchResults?startLat=<%%= startLat %>&startLng=<%%= startLng %>&endLat=<%%= endLat %>&endLng=<%%= endLng %>" class="back btn col-xs-4 col-sm-4 col-md-3 col-lg-2">Back to All Results</a>
 </script>
 
 
