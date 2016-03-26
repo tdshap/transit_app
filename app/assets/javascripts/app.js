@@ -3,11 +3,10 @@ var UsersCollection = Backbone.Collection.extend({
 })
 
 
-
 var StartEndPoints = Backbone.View.extend({
 	tagName: "div",
 	attributes: {
-		class: "col-xs-offset-3 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 search-box"
+		class: "col-sm-offset-1 col-md-offset-3 col-lg-offset-3 col-xs-12 col-sm-9 col-md-6 col-lg-6 search-box"
 	},
 	template: _.template($("#start-end-points").html() ),
 	initialize: function(){
@@ -24,7 +23,6 @@ var StartEndPoints = Backbone.View.extend({
 		return [startingPoint, endingPoint]
 	}
 })
-
 
 var SpinningWheel = Backbone.View.extend({
 	tagName: "div", 
@@ -420,9 +418,9 @@ router.on("route:home", function(){
 })
 
 router.on("route:search", function(){
-
-	var sendStartEndPoints = startEndPoints.getStartEndPoints()
+	var sendStartEndPoints = startEndPoints.getStartEndPoints() || [$("input.start").val(), $("input.end").val()] 
 	var gettingResults = new SpinningWheel
+
 	$.ajax({
 		type: "POST",
 		url: "/route", 

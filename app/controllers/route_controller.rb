@@ -1,8 +1,8 @@
 class RouteController < ApplicationController
-
 	def index
 		if params[:startingPoint]
-			# Starting Point lat / lngs 
+			
+			# Starting Point lat / lngs from user
 			starting_point = params[:startingPoint]
 			starting_encoded = starting_point.gsub(" ", "+")
 			
@@ -12,6 +12,7 @@ class RouteController < ApplicationController
 				# render :html => "<h1>ERROR! Something wrong with your start location</h1>"
 			end 
 			start_results
+		
 		else 
 			start_results = HTTParty.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=#{params['startLat']},#{params['startLng']}&key=" + GOOGLE_API_KEY )
 			if start_results["status"] != "OK" 
@@ -136,6 +137,7 @@ class RouteController < ApplicationController
 				:distance => uber_distance
 			}
 		}
+
 		render :json => results
 	end 
 

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "session#new"
+  root "session#show"
 
   resources :users do 
     resources :searches
@@ -8,8 +8,12 @@ Rails.application.routes.draw do
   # get "/login" => "session#new"
   get "/signup" => "users#new"
   get "/signout" => "session#destroy"
+  get "/signin" => "session#new"
+
   post "/route" => "route#index"
   post "bikeStations" => "route#bikeStations"
+
+
 #          Prefix Verb   URI Pattern                                 Controller#Action
 #             root GET    /                                           root#index
 #    user_searches GET    /users/:user_id/searches(.:format)          searches#index

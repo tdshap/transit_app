@@ -4,9 +4,10 @@ class UsersController < ApplicationController
 		render :json => users
 	end 
 
+
+# CREATE
 	def create
-		binding.pry
-		user = User.create({
+	user = User.create({
 			user_name: params[:user_name],
 			password: params[:password],
 			email: params[:email]
@@ -21,13 +22,16 @@ class UsersController < ApplicationController
 	end 
 	
 	# def edit
-	# end 
-	
+	# end
+
+	 
+# SHOW
 	def show 
 		@user = User.find(params[:id])
 		render :index
 	end 
 	
+# EDIT
 	def	update
 		user = User.find(params[:id])
 		if params[:user_name]
@@ -43,6 +47,7 @@ class UsersController < ApplicationController
 		render :json => "User was updated"
 	end
 
+# DELETE
 	def destroy
 		user = User.find(params[:id])
 		user.destroy

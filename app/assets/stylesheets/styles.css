@@ -44,7 +44,8 @@ div.button-transit{
 	padding: 5px 0;
 }
 a.getResults{
-	margin-bottom: 5px;
+	margin: 0 10px 5px;
+
 }
 input.start{
 	border: 2px solid black; 
@@ -240,9 +241,5 @@ section.
 a.back:hover{
 
 	font: white;
-}
-
-div#citibike_popover > p{
-	font-size: 12px;
 }
 

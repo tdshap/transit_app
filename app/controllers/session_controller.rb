@@ -1,4 +1,8 @@
 class SessionController < ApplicationController
+	def show
+		render "/users/index.html"
+	end 
+
 	def new
 		@user = User.find_by(id: session[:user_id])
 		if @user
@@ -6,7 +10,7 @@ class SessionController < ApplicationController
 		else
 			render :new
 		end 
-	end 
+	end
 	def create
 		@user = User.find_by(email: params[:email])
 
